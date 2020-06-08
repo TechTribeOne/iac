@@ -1,0 +1,25 @@
+Ec2Instance: 
+  Type: AWS::EC2::Instance
+  Properties: 
+    ImageId: 
+      Fn::FindInMap: 
+        - "RegionMap"
+        - Ref: "AWS::Region"
+        - "AMI"
+    KeyName: 
+      Ref: "sean.conley@caci.com"
+    NetworkInterfaces: 
+      - AssociatePublicIpAddress: "true"
+        DeviceIndex: "0"
+        GroupSet: 
+          - Ref: "myVPCEC2SecurityGroup"
+        SubnetId: 
+          Ref: "PublicSubnet"
+
+Mappings:
+  RegionMap:
+    us-east-1:
+      BaseAmi: "ami-062a507721b3c5ac1"
+    us-gov-west-1:
+      BaseAmi: "ami-221c2143"
+

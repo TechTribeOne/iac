@@ -1,0 +1,23 @@
+#!/bin/bash -e
+PATH=/bin:/usr/bin:/sbin:/usr/sbin
+which aws > /dev/null 2>&1 && exit 0
+umask 22
+
+# pip based install
+yum -y install python-setuptools
+easy_install pip
+pip install awscli
+pip install https://s3.amazonaws.com/cloudformation-examples/aws-cfn-bootstrap-latest.tar.gz
+
+# configure profile for root
+region=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone | sed 's/[a-z]$//')
+aws configure set default.region "$region"
+aws configure set default.s3.signature_version s3v4
+
+# minimal config for system default
+[ -f /etc/profile.d/aws-profile.sh] && exit 0
+cat << END > /etc/profile.d/aws-profile.sh
+export AWS_CA_BUNDLE=/etc/ssl/certs/ca-bundle.crt
+export REQUESTS_CA_BUNDLE=/etc/ssl/certs/ca-bundle.crt
+export AWS_DEFAULT_REGION=$region
+END

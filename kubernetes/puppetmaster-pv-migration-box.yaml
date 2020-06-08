@@ -1,0 +1,202 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: box
+spec:
+  containers:
+  - name: app
+    image: centos
+    command: ["/bin/sh"]
+    args: ["-c", "while true; do echo $(date -u); sleep 5; done"]
+    volumeMounts:
+    - name: puppetdb-claim
+      mountPath: /puppetdb-claim
+    - name: puppet-puppet-claim
+      mountPath: /puppet-puppet-claim
+    - name: puppet-code-claim
+      mountPath: /puppet-code-claim
+    - name: puppet-serverdata-claim
+      mountPath: /puppet-serverdata-claim
+    - name: postgres-claim
+      mountPath: /postgres-claim
+    - name: puppetdb-claim-new
+      mountPath: /puppetdb-claim-new
+    - name: puppet-puppet-claim-new
+      mountPath: /puppet-puppet-claim-new
+    - name: puppet-code-claim-new
+      mountPath: /puppet-code-claim-new
+    - name: puppet-serverdata-claim-new
+      mountPath: /puppet-serverdata-claim-new
+    - name: postgres-claim-new
+      mountPath: /postgres-claim-new
+  volumes:
+  - name: puppetdb-claim
+    persistentVolumeClaim:
+      claimName: puppetdb-claim
+  - name: puppet-puppet-claim
+    persistentVolumeClaim:
+      claimName: puppet-puppet-claim
+  - name: puppet-code-claim
+    persistentVolumeClaim:
+      claimName: puppet-code-claim
+  - name: puppet-serverdata-claim
+    persistentVolumeClaim:
+      claimName: puppet-serverdata-claim
+  - name: postgres-claim
+    persistentVolumeClaim:
+      claimName: postgres-claim
+  - name: puppetdb-claim-new
+    persistentVolumeClaim:
+      claimName: puppetdb-claim-new
+  - name: puppet-puppet-claim-new
+    persistentVolumeClaim:
+      claimName: puppet-puppet-claim-new
+  - name: puppet-code-claim-new
+    persistentVolumeClaim:
+      claimName: puppet-code-claim-new
+  - name: puppet-serverdata-claim-new
+    persistentVolumeClaim:
+      claimName: puppet-serverdata-claim-new
+  - name: postgres-claim-new
+    persistentVolumeClaim:
+      claimName: postgres-claim-new
+--- 
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: puppetdb-claim
+  namespace: puppet
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+  storageClassName: ovirt-pure-ssd-vol1-retain
+  resources:
+    requests:
+      storage: 100Mi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: puppet-puppet-claim
+  namespace: puppet
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+  storageClassName: ovirt-pure-ssd-vol1-retain
+  resources:
+    requests:
+      storage: 100Mi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: puppet-code-claim
+  namespace: puppet
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+  storageClassName: ovirt-pure-ssd-vol1-retain
+  resources:
+    requests:
+      storage: 100Mi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: puppet-serverdata-claim
+  namespace: puppet
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+  storageClassName: ovirt-pure-ssd-vol1-retain
+  resources:
+    requests:
+      storage: 100Mi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-claim
+  namespace: puppet
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+  storageClassName: ovirt-pure-ssd-vol1-retain
+  resources:
+    requests:
+      storage: 100Mi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: puppetdb-claim-new
+  namespace: puppet
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+  storageClassName: ovirt-pure-ssd-vol1-retain
+  resources:
+    requests:
+      storage: 2Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: puppet-puppet-claim-new
+  namespace: puppet
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+  storageClassName: ovirt-pure-ssd-vol1-retain
+  resources:
+    requests:
+      storage: 2Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: puppet-code-claim-new
+  namespace: puppet
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+  storageClassName: ovirt-pure-ssd-vol1-retain
+  resources:
+    requests:
+      storage: 2Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: puppet-serverdata-claim-new
+  namespace: puppet
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+  storageClassName: ovirt-pure-ssd-vol1-retain
+  resources:
+    requests:
+      storage: 2Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-claim-new
+  namespace: puppet
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+  storageClassName: ovirt-pure-ssd-vol1-retain
+  resources:
+    requests:
+      storage: 2Gi

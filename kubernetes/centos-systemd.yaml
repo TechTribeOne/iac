@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: centos-systemd
+spec:
+  securityContext:
+    fsGroup: 0
+    runAsUser: 0
+  containers:
+  - name: centos-systemd
+    image: centos/systemd
+    securityContext:
+      allowPrivilegeEscalation: true
+      privileged: true

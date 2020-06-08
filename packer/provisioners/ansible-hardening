@@ -1,0 +1,26 @@
+#!/bin/bash -e
+
+git_repo=https://github.com/dev-sec/ansible-os-hardening.git
+ansible_role=ansible-os-hardening
+
+PATH=/bin:/usr/bin:/sbin:/usr/sbin
+
+# clone repo
+workdir=$(mktemp -d)
+pushd $workdir > /dev/null
+git clone $git_repo
+cd ansible-os-hardening
+
+# create localhost playbook
+cat << END > playbook.yaml
+- hosts: localhost
+  roles:
+    - $ansible_role
+END
+
+# call the play
+ansible-playbook playbook.yaml
+
+# hit the showers
+popd; rm -rf $workdir
+

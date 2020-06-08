@@ -1,0 +1,17 @@
+#!/bin/bash -e
+PATH=/bin:/usr/bin:/sbin:/usr/sbin
+which docker > /dev/null 2>&1 && exit 0
+umask 22
+
+docker_compose_url='https://github.com/docker/compose/releases/download/1.25.5/docker-compose-Linux-x86_64'
+
+# install/configure base docker
+yum -y install docker
+systemctl enable docker
+systemctl start docker
+
+# install/configure docker-compose
+curl -Lso /bin/docker-compose $docker_compose_url
+chown root:root /bin/docker-compose
+chmod 755 /bin/docker-compose
+

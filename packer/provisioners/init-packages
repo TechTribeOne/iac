@@ -1,0 +1,44 @@
+#!/bin/bash -e
+PATH=/bin:/usr/bin:/sbin:/usr/sbin
+umask 22
+
+jq_download_url="https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64"
+
+# yum blacklist
+yum -y erase \
+  ghostscript \
+  2> /dev/null
+
+# update before new installs
+yum -y update
+
+# yum installs
+yum -y install \
+  bind-utils \
+  binutils \
+  coreutils  \
+  curl \
+  git \
+  mlocate \
+  net-tools \
+  postfix \
+  python2-pip \
+  python3 \
+  screen \
+  unzip \
+  vim \
+  unzip \
+  zip \
+  zsh
+
+# best effort for aws ssm
+yum -y install amazon-ssm-agent && systemctl enable amazon-ssm-agent || true
+
+# try really hard for ansible. fail entire job if ansible not available.
+yum -y install ansible || pip install ansible || true
+which ansible > /dev/null 2>&1 || exit 1
+
+# considering other base software to be part of packages
+curl -skL "$jq_download_url" -o /usr/bin/jq && \
+chown root:root /usr/bin/jq && \
+chmod 755 /usr/bin/jq || true

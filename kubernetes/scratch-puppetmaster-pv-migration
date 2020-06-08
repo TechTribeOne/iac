@@ -1,0 +1,134 @@
+# ------------------------------------------------------------------------------------------------------------------------
+
+root@kubenode-inf-1:~# k get pv
+NAME                                       CAPACITY    ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM                            STORAGECLASS                 REASON   AGE
+pvc-00c4c1bf-5648-45cc-a303-6479463514c5   104857600   RWO            Retain           Bound    puppet/puppet-code-claim         ovirt-pure-ssd-vol1-retain            43d
+pvc-35f66253-2ccd-4918-923c-b179685d4493   104857600   RWO            Retain           Bound    puppet/puppet-puppet-claim       ovirt-pure-ssd-vol1-retain            43d
+pvc-f4ff12e5-a12f-41d1-9394-562421da5f21   104857600   RWO            Retain           Bound    puppet/postgres-claim            ovirt-pure-ssd-vol1-retain            43d
+pvc-f7639871-ba53-4d47-887f-bac874504e6a   104857600   RWO            Retain           Bound    puppet/puppetdb-claim            ovirt-pure-ssd-vol1-retain            43d
+pvc-fb03ab52-7251-4842-9cda-a68d60e37998   104857600   RWO            Retain           Bound    puppet/puppet-serverdata-claim   ovirt-pure-ssd-vol1-retain            43d
+
+root@kubenode-inf-1:~# k get pvc
+NAME                      STATUS   VOLUME                                     CAPACITY    ACCESS MODES   STORAGECLASS                 AGE
+postgres-claim            Bound    pvc-f4ff12e5-a12f-41d1-9394-562421da5f21   104857600   RWO            ovirt-pure-ssd-vol1-retain   15d
+puppet-code-claim         Bound    pvc-00c4c1bf-5648-45cc-a303-6479463514c5   104857600   RWO            ovirt-pure-ssd-vol1-retain   15d
+puppet-puppet-claim       Bound    pvc-35f66253-2ccd-4918-923c-b179685d4493   104857600   RWO            ovirt-pure-ssd-vol1-retain   15d
+puppet-serverdata-claim   Bound    pvc-fb03ab52-7251-4842-9cda-a68d60e37998   104857600   RWO            ovirt-pure-ssd-vol1-retain   15d
+puppetdb-claim            Bound    pvc-f7639871-ba53-4d47-887f-bac874504e6a   104857600   RWO            ovirt-pure-ssd-vol1-retain   15d
+
+# ------------------------------------------------------------------------------------------------------------------------
+
+conleys@kubemaster-inf-1:fade/puppet-helm% k get pvc
+NAME                      STATUS   VOLUME                                     CAPACITY     ACCESS MODES   STORAGECLASS                 AGE
+postgres-claim            Bound    pvc-d37c7101-a89d-4d36-a129-1b2381c1b26d   2147483648   RWO            ovirt-pure-ssd-vol1-retain   12s
+puppet-code-claim         Bound    pvc-8bbe78e5-a167-4eb5-8a68-6d68fc05e494   2147483648   RWO            ovirt-pure-ssd-vol1-retain   12s
+puppet-puppet-claim       Bound    pvc-7c3318f3-55b1-4013-9b32-4b7daadd23cd   2147483648   RWO            ovirt-pure-ssd-vol1-retain   12s
+puppet-serverdata-claim   Bound    pvc-b8777d04-99b6-420a-a25c-7f8458929e29   2147483648   RWO            ovirt-pure-ssd-vol1-retain   12s
+puppetdb-claim            Bound    pvc-457fca87-8841-466d-a4cd-dbbf839f8e3a   2147483648   RWO            ovirt-pure-ssd-vol1-retain   12s
+
+
+
+
+# ------------------------------------------------------------------------------------------------------------------------
+OLD:
+pvc-00c4c1bf-5648-45cc-a303-6479463514c5
+pvc-35f66253-2ccd-4918-923c-b179685d4493
+pvc-f4ff12e5-a12f-41d1-9394-562421da5f21
+pvc-f7639871-ba53-4d47-887f-bac874504e6a
+pvc-fb03ab52-7251-4842-9cda-a68d60e37998
+
+for pv in pvc-00c4c1bf-5648-45cc-a303-6479463514c5 pvc-35f66253-2ccd-4918-923c-b179685d4493 pvc-f4ff12e5-a12f-41d1-9394-562421da5f21 pvc-f7639871-ba53-4d47-887f-bac874504e6a pvc-fb03ab52-7251-4842-9cda-a68d60e37998 ; do
+
+kubectl -n puppet patch pv $pv -p '{"spec":{"claimRef":{"resourceVersion": null,"uid": null}}}'
+
+
+
+# ------------------------------------------------------------------------------------------------------------------------
+
+NEW: 
+pvc-457fca87-8841-466d-a4cd-dbbf839f8e3a
+pvc-7c3318f3-55b1-4013-9b32-4b7daadd23cd
+pvc-8bbe78e5-a167-4eb5-8a68-6d68fc05e494
+pvc-b8777d04-99b6-420a-a25c-7f8458929e29
+pvc-d37c7101-a89d-4d36-a129-1b2381c1b26d
+
+for pv in pvc-457fca87-8841-466d-a4cd-dbbf839f8e3a pvc-7c3318f3-55b1-4013-9b32-4b7daadd23cd pvc-8bbe78e5-a167-4eb5-8a68-6d68fc05e494 pvc-b8777d04-99b6-420a-a25c-7f8458929e29 pvc-d37c7101-a89d-4d36-a129-1b2381c1b26d ; do
+kubectl -n puppet patch pv $pv -p '{"spec":{"claimRef":{"resourceVersion": null,"uid": null}}}'
+done
+
+pv: pvc-457fca87-8841-466d-a4cd-dbbf839f8e3a
+    name: puppetdb-claim
+----------
+pv: pvc-7c3318f3-55b1-4013-9b32-4b7daadd23cd
+    name: puppet-puppet-claim
+----------
+pv: pvc-8bbe78e5-a167-4eb5-8a68-6d68fc05e494
+    name: puppet-code-claim
+----------
+pv: pvc-b8777d04-99b6-420a-a25c-7f8458929e29
+    name: puppet-serverdata-claim
+----------
+pv: pvc-d37c7101-a89d-4d36-a129-1b2381c1b26d
+    name: postgres-claim
+
+
+kubectl -n puppet patch pv pvc-457fca87-8841-466d-a4cd-dbbf839f8e3a -p '{"spec":{"claimRef":{"name": "puppetdb-claim-new"}}}'
+kubectl -n puppet patch pv pvc-7c3318f3-55b1-4013-9b32-4b7daadd23cd -p '{"spec":{"claimRef":{"name": "puppet-puppet-claim-new"}}}'
+kubectl -n puppet patch pv pvc-8bbe78e5-a167-4eb5-8a68-6d68fc05e494 -p '{"spec":{"claimRef":{"name": "puppet-code-claim-new"}}}'
+kubectl -n puppet patch pv pvc-b8777d04-99b6-420a-a25c-7f8458929e29 -p '{"spec":{"claimRef":{"name": "puppet-serverdata-claim-new"}}}'
+kubectl -n puppet patch pv pvc-d37c7101-a89d-4d36-a129-1b2381c1b26d -p '{"spec":{"claimRef":{"name": "postgres-claim-new"}}}'
+
+kubectl -n puppet patch pv pvc-457fca87-8841-466d-a4cd-dbbf839f8e3a -p '{"spec":{"claimRef":{"name": "puppetdb-claim"}}}'
+kubectl -n puppet patch pv pvc-7c3318f3-55b1-4013-9b32-4b7daadd23cd -p '{"spec":{"claimRef":{"name": "puppet-puppet-claim"}}}'
+kubectl -n puppet patch pv pvc-8bbe78e5-a167-4eb5-8a68-6d68fc05e494 -p '{"spec":{"claimRef":{"name": "puppet-code-claim"}}}'
+kubectl -n puppet patch pv pvc-b8777d04-99b6-420a-a25c-7f8458929e29 -p '{"spec":{"claimRef":{"name": "puppet-serverdata-claim"}}}'
+kubectl -n puppet patch pv pvc-d37c7101-a89d-4d36-a129-1b2381c1b26d -p '{"spec":{"claimRef":{"name": "postgres-claim"}}}'
+
+
+sdb                       8:16   0    2G  0 disk /var/lib/kubelet/pods/93cd3d2c-bda4-4373-9dac-c5c44877ee63/volumes/ovirt~ovirt-flexvolume-driver/pvc-457fca87-8841-466d-a4cd-dbbf839f8e3a
+sdc                       8:32   0    2G  0 disk /var/lib/kubelet/pods/54b36513-8512-4799-8672-7bf6c55e3c40/volumes/ovirt~ovirt-flexvolume-driver/pvc-b8777d04-99b6-420a-a25c-7f8458929e29
+sdd                       8:48   0    2G  0 disk /var/lib/kubelet/pods/54b36513-8512-4799-8672-7bf6c55e3c40/volumes/ovirt~ovirt-flexvolume-driver/pvc-8bbe78e5-a167-4eb5-8a68-6d68fc05e494
+sde                       8:64   0    2G  0 disk /var/lib/kubelet/pods/dc468f71-dedd-47aa-a07c-0b661c4f23e0/volumes/ovirt~ovirt-flexvolume-driver/pvc-d37c7101-a89d-4d36-a129-1b2381c1b26d
+sdf                       8:80   0    2G  0 disk /var/lib/kubelet/pods/54b36513-8512-4799-8672-7bf6c55e3c40/volumes/ovirt~ovirt-flexvolume-driver/pvc-7c3318f3-55b1-4013-9b32-4b7daadd23cd
+
+OLD:
+NAME                                       CAPACITY    ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM                            STORAGECLASS                 REASON   AGE
+pvc-00c4c1bf-5648-45cc-a303-6479463514c5   104857600   RWO            Retain           Bound    puppet/puppet-code-claim         ovirt-pure-ssd-vol1-retain            43d
+pvc-35f66253-2ccd-4918-923c-b179685d4493   104857600   RWO            Retain           Bound    puppet/puppet-puppet-claim       ovirt-pure-ssd-vol1-retain            43d
+pvc-f4ff12e5-a12f-41d1-9394-562421da5f21   104857600   RWO            Retain           Bound    puppet/postgres-claim            ovirt-pure-ssd-vol1-retain            43d
+pvc-f7639871-ba53-4d47-887f-bac874504e6a   104857600   RWO            Retain           Bound    puppet/puppetdb-claim            ovirt-pure-ssd-vol1-retain            43d
+pvc-fb03ab52-7251-4842-9cda-a68d60e37998   104857600   RWO            Retain           Bound    puppet/puppet-serverdata-claim   ovirt-pure-ssd-vol1-retain            43d
+
+
+mount /dev/sdb /mnt 
+cd /mnt 
+tar xf /var/backups/pvc-f7639871-ba53-4d47-887f-bac874504e6a.tar 
+cd
+umount /mnt
+
+mount /dev/sdc /mnt 
+cd /mnt 
+tar xf /var/backups/pvc-fb03ab52-7251-4842-9cda-a68d60e37998.tar 
+cd
+umount /mnt
+
+mount /dev/sdd /mnt 
+cd /mnt 
+tar xf /var/backups/pvc-00c4c1bf-5648-45cc-a303-6479463514c5.tar 
+cd
+umount /mnt
+
+mount /dev/sde /mnt 
+cd /mnt 
+tar xf /var/backups/pvc-f4ff12e5-a12f-41d1-9394-562421da5f21.tar 
+cd
+umount /mnt
+
+mount /dev/sdf /mnt 
+cd /mnt 
+tar xf /var/backups/pvc-35f66253-2ccd-4918-923c-b179685d4493.tar 
+cd
+umount /mnt
+
+helm delete --purge puppetserver
+

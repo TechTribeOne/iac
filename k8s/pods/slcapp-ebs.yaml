@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: slcapp-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  volumeMode: Block
+  storageClassName: sc-ebs-retain
+  resources:
+    requests:
+      storage: 2Gi
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: slcapp 
+spec:
+  containers:
+  - name: app 
+    image: busybox 
+    command: ["/bin/sh", "-c"]
+    args: ["tail -f /dev/null"]
+    volumeDevices:
+    - name: data
+      devicePath: /dev/xvda
+  volumes:
+  - name: data
+    persistentVolumeClaim:
+      claimName: slcapp-pvc

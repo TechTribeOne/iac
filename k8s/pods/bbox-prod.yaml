@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: bbox
+  namespace: conleys
+spec:
+  nodeName: i-0331dfeb96d4a1c07-minion
+  containers:
+  - name: bbox
+    image: 769788309369.dkr.ecr.us-gov-west-1.amazonaws.com/csde/apps/busybox:latest
+    command:
+      - sleep
+      - "3600"
+    imagePullPolicy: IfNotPresent
+  restartPolicy: Always

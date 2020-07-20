@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nexus3
+  namespace: conleys
+spec:
+  containers:
+  - name: nexus3
+    image: 769788309369.dkr.ecr.us-gov-west-1.amazonaws.com/csde/apps/selfservice2/nexus3-ms:1.0.2
+    command:
+      - sleep
+      - "3600"
+    imagePullPolicy: IfNotPresent
+  restartPolicy: Always

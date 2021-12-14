@@ -1,0 +1,31 @@
+pipeline {
+  agent any
+  stages {
+    stage('adhoc'){
+      steps {
+        withCredentials([usernamePassword(credentialsId: 'gdi_nexus_3_credential', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+          sh '''
+          #!/bin/bash
+          env | sort
+          set | sort
+          host nexus3.gs.mil
+          host nexus.gs.mil
+          host nexus3
+          host nexus
+          host gitlab
+          host gitlab.gs.mil
+          '''
+        }
+      }
+    }
+    stage('gitconnect') {
+      steps {
+        withCredentials([sshUserPrivateKey(credentialsId: "vast-slconle-ssh-slctemp", keyFileVariable: 'keyfile')]) {
+          sh '''
+          ssh -Tvv -i "$keyfile" git@gitlab.gs.mil
+          '''
+        }
+      }
+    }
+  }
+}

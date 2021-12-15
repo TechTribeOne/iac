@@ -1,0 +1,4 @@
+---
+# defaults file for myorg.common
+
+myorg.yum.repos: []

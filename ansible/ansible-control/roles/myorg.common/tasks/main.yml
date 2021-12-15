@@ -1,0 +1,32 @@
+---
+# tasks file for myorg.common
+
+- name: Install a list of packages
+  yum:
+    name:
+      - net-tools
+    state: present
+
+- name: install databahan root CA
+  copy:
+    src: ca.cert.pem
+    dest: /etc/pki/ca-trust/source/anchors/
+    owner: root
+    group: root
+  when: env == "dev"
+
+- name: update ca certs
+  shell: update-ca-trust
+  when: env == "dev"
+
+- name: Copy myorg.repo file to server
+  template:
+    dest: /etc/yum.repos.d/myorg.repo
+    src: myorg.repo.j2
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Add host entry for dev
+  shell: echo "192.168.100.67  ansible.hq.vast-inc.com" >> /etc/hosts
+  when: env == "dev"

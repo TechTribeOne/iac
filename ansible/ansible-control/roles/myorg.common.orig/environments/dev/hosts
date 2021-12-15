@@ -1,4 +1,0 @@
-myorg ansible_connection=local
-
-[servers]
-myorg

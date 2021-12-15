@@ -1,7 +1,0 @@
----
-env: staging
-
-myorg_server_keystore_passkey: ''
-myorg_server_truststore_passkey: ''
-
-mongodb_auth_password: ''

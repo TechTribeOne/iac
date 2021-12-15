@@ -1,0 +1,135 @@
+---
+
+# --------------------------------------------------
+# filebeat
+# --------------------------------------------------
+- name: install/configure filebeat
+  hosts: all
+  roles:
+    - elastic.beats
+  vars:
+    beat: filebeat
+    beats_version: "{{ filebeat_beats_version }}"
+    version_lock: "{{ filebeat_version_lock }}"
+    beat_conf: 
+      filebeat.config.modules:
+        enabled: true
+        reload.enabled: true
+        path: "{{ beats_conf_dir }}/modules.d/*.yml"
+      filebeat.config.inputs:
+        enabled: true
+        path: "{{ beats_conf_dir }}/inputs.d/*.yml"
+        ignore_older: 24h
+        clean_inactive: 72h
+    outputs_conf:
+      elasticsearch:
+        # TODO: parameterize 
+        hosts: 
+          # - [${esHostList}]
+          - localhost
+        ilm.enabled: true
+        indices:
+          # - index: "${site}%{[fields.index]}"
+          - index: "%{[fields.index]}"
+            when.has_fields: ["fields.index"]
+
+
+
+# # ----------------------------------------------------------------------
+# # general settings
+# # ----------------------------------------------------------------------
+# printf -- '\n----- configuring general settings\n'
+# esHostList=$(printf '"%s",' "${esHostSpec[@]}")
+# for d in $path_config $path_inputs $path_modules; do [ -d $d ] || mkdir -p $d; done
+# [ ! -f ${file_config}.ORIG ] && cp -p ${file_config} ${file_config}.ORIG
+# cat << HERE > $file_config
+# setup:
+#   template.enabled: true
+#   template.settings.index.number_of_shards: $index_shards
+#   template.settings.index.number_of_replicas: $index_replicas
+#   dashboards.enabled: true
+#   kibana.host: ${kibanaHostSpec}
+# filebeat.config.modules:
+#   enabled: true
+#   reload.enabled: true
+#   path: $path_modules/*.yml
+# filebeat.config.inputs:
+#   enabled: true
+#   path: $path_inputs/*.yml
+#   ignore_older: 24h
+#   clean_inactive: 72h
+# output.elasticsearch:
+#   hosts: [${esHostList}]
+#   ilm.enabled: true
+#   indices:
+#     - index: "${site}%{[fields.index]}"
+#       when.has_fields: ["fields.index"]
+# HERE
+
+
+
+
+
+# # ----------------------------------------------------------------------
+# # myorg inputs - monitor log needs to wait
+# # ----------------------------------------------------------------------
+# printf -- '----- configuring myorg specific logfiles\n'
+# cat << 'HERE' > $path_inputs/myorg.yml
+# # - type: log
+# #   paths:
+# #     - /var/log/myorg/node-monitor.log
+# #   fields: {index: "monitoring"}
+# #   tags: ["dbMonitorLog"]
+# #   pipeline: filebeat-myorg
+# #   processors:
+# #     - decode_json_fields:
+# #         fields: ["message"]
+# #         target: myorg.event.details
+# #     - drop_fields:
+# #         fields: ["message"]
+# #         when:
+# #           has_fields: ['myorg.event.details.message']
+# - type: log
+#   paths:
+#     - /var/log/myorg/node-transmit.log
+#   fields: {index: "transmit"}
+#   tags: ["dbTransmitLog"]
+#   pipeline: filebeat-myorg
+#   processors:
+#     - dissect:
+#         tokenizer: "%{@timestamp} [%{tag}] %{priority->} %{xType} - %{xStatus} \'[%{uuidlist}]\' %{destType} to \'%{destination}\'"
+#         target_prefix: myorg.event.details
+#     - drop_fields:
+#         fields: ["message"]
+#         when:
+#           has_fields: ['myorg.event.details']
+# HERE
+
+
+
+
+# # ----------------------------------------------------------------------
+# # create custom pipeline for myorg logfiles
+# # ----------------------------------------------------------------------
+# printf -- '\n----- configuring myorg custom ingest pipeline...\t'
+# curl -XPUT "${esEndpoint}/_ingest/pipeline/filebeat-myorg" -H 'Content-Type: application/json' -d'
+# {
+#   "description": "myorg filebeat custom processing",
+#   "processors": [
+#     {
+#       "date": {
+#         "field": "myorg.event.details.@timestamp",
+#         "formats": [ "ISO8601", "yyyy-MM-dd HH:mm:ss,SSS", "yyyy-MM-dd HH:mm:ss.SSS"]
+#       }
+#     }
+#   ]
+# }'
+
+# # ----------------------------------------------------------------------
+# # create aliases and starter custom indices
+# # ----------------------------------------------------------------------
+# # for alias in ${site}{monitoring,transmit}; do       # again, monitor log must wait
+# for alias in ${site}transmit; do
+#   esIndexCreate "${alias}-${beat_version}-${today}-000001" "$alias"
+# done
+

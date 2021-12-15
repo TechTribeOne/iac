@@ -1,0 +1,18 @@
+---
+collections:
+  - community.sops
+
+roles:
+  - name: dev-sec.os-hardening
+    scm: git
+    src: git@github.com:dev-sec/ansible-collection-hardening.git
+    version: 7.7.0
+  # - name: elastic.elasticsearch
+  #   scm: git
+  #   src: git@git.vast-inc.com:ansible/ansible-elasticsearch.git
+  #   version: master
+  # - name: elastic.beats
+  #   scm: git
+  #   src: git@git.vast-inc.com:ansible/ansible-beats.git
+  #   version: master
+

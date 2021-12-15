@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# ----------------------------------------------------------------------
+# create custom pipeline for myorg logfiles
+# ----------------------------------------------------------------------
+printf -- '\n----- configuring myorg custom ingest pipeline...\t'
+curl -XPUT "${esEndpoint}/_ingest/pipeline/filebeat-myorg" -H 'Content-Type: application/json' -d'
+{
+  "description": "myorg filebeat custom processing",
+  "processors": [
+    {
+      "date": {
+        "field": "myorg.event.details.@timestamp",
+        "formats": [ "ISO8601", "yyyy-MM-dd HH:mm:ss,SSS", "yyyy-MM-dd HH:mm:ss.SSS"]
+      }
+    }
+  ]
+}'
+

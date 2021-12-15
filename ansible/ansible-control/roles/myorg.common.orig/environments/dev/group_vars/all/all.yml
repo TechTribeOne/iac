@@ -1,0 +1,31 @@
+---
+env: dev
+
+myorg_repo_url: https://ansible.hq.vast-inc.com/repo/
+
+java_packages: java-1.8.0-openjdk
+
+elasticsearch_install_kibana: true
+kibana_server_host: 0.0.0.0
+
+elasticsearch_heap_size_min: 1g
+elasticsearch_heap_size_max: "{{ elasticsearch_heap_size_min }}"
+elasticsearch_hosts: localhost
+
+mongodb_db_path: "/var/lib/mongo"
+mongodb_user: "mongod"
+mongodb_group: "mongod"
+mongodb_version: 4.0
+mongo_replication_set: !!null
+mongo_interfaces: ["127.0.0.1"]
+
+nginx_node_name: myorg.hq.vast-inc.com
+
+myorg_network: "{{ network }}"
+myorg_user: myorg
+myorg_group: myorg
+
+myorg_server_keystore_passkey: ''
+myorg_server_truststore_passkey: ''
+
+mongodb_auth_password: ''

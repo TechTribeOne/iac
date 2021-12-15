@@ -1,0 +1,32 @@
+---
+
+# --------------------------------------------------
+# metricbeat
+# --------------------------------------------------
+- name: install/configure metricbeat
+  hosts: all
+  roles:
+    - elastic.beats
+  vars:
+    beat: metricbeat
+    beats_version: "{{ metricbeat_beats_version }}"
+    version_lock: "{{ metricbeat_version_lock }}"
+    allow_downgrade: "{{ metricbeat_allow_downgrade }}"
+    beat_conf:
+      setup:
+        template.settings.index.number_of_shards: 3
+        template.settings.index.number_of_replicas: 1
+        dashboards.enabled: true
+        kibana.host: "{{ metricbeat_kibana_host }}"
+      metricbeat.config.modules:
+        enabled: true
+        reload.enabled: true
+        path: /etc/metricbeat/modules.d/*.yml
+      processors:
+        - add_host_metadata: ~
+        - add_cloud_metadata: ~
+      output.elasticsearch:
+        hosts: "{{ es_server_nodes}}"
+        ilm.enabled: true
+      xpack.monitoring.enabled: true
+      xpack.monitoring.elasticsearch: true

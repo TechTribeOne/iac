@@ -1,0 +1,33 @@
+---
+
+# --------------------------------------------------
+# elasticsearch
+# --------------------------------------------------
+- name: install/configure elasticsearch
+  hosts: elasticsearch
+  roles:
+    - role: elastic.elasticsearch
+#  vars:
+#    es_server_nodes:
+#      - myorg-es01:9200
+#      - myorg-es02:9200
+#      - myorg-es03:9200
+
+#    es_data_dirs:
+#      - /data1/myorg/elasticsearch
+#      - /data2/myorg/elasticsearch
+#      - /data3/myorg/elasticsearch
+#      - /data4/myorg/elasticsearch
+#      - /data5/myorg/elasticsearch
+
+#    # es_api_host: "localhost"
+#    es_api_host: "0.0.0.0"
+#    es_api_scheme: "http"
+#    # es_api_scheme: "https"
+#    es_logs_dir: /var/log/elasticsearch
+
+#    es_config:
+#      cluster.routing.allocation.disk.watermark.low: 3gb
+#      cluster.routing.allocation.disk.watermark.high: 3gb
+#      cluster.routing.allocation.disk.watermark.flood_stage: 3gb
+#      xpack.license.self_generated.type: basic

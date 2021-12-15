@@ -3,6 +3,7 @@ FROM alpine:3.15
 ENV ANSIBLE_VERSION 2.12.1
 
 ENV BUILD_PACKAGES \
+  ansible \
   bash \
   curl \
   tar \
@@ -47,16 +48,13 @@ RUN apk -Uuv add \
 #  python-dev
 
 RUN apk -Uuv --no-cache add \
-py3-pip python3 tar gzip curl
+  py3-pip python3 tar gzip curl
 
 # RUN apk -Uuv add --no-cache \
 # ${BUILD_PACKAGES}
 
 RUN \
 pip install --upgrade pip awscli aws-amicleaner
-
-RUN \
-pip install --upgrade ansible && ansible --version
 
 RUN \
 rm /var/cache/apk/* && \

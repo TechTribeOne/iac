@@ -1,0 +1,16 @@
+---
+# file: playbook-foo.yml
+- hosts: all
+  become: yes
+  tasks:
+    - debug:
+        msg: "env={{ env }}"
+  roles:
+    - role: common
+    - role: java
+    - role: mongodb
+    - role: elasticsearch
+    - role: webtier
+    - role: myorg
+    - role: kibana
+

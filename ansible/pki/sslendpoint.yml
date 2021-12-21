@@ -1,0 +1,25 @@
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: generate private key for www.demo.org
+      community.crypto.openssl_privatekey:
+        path: keys/demo.org-internal-key.pem
+    - name: generate CSR for www.demo.org
+      community.crypto.openssl_csr:
+        path: CSRs/demo.org-internal-csr.pem
+        privatekey_path: keys/demo.org-internal-key.pem
+        common_name: www.demo.org
+    - name: generate internal openssl certificate
+      community.crypto.x509_certificate:
+        path: certs/demo.org-internal-cert.pem
+        csr_path: CSRs/demo.org-internal-csr.pem
+        ownca_path: CA/demo/demo-internal-ca-int1-cert.pem
+        ownca_privatekey_path: CA/demo/demo-internal-ca-int1-key.pem
+        provider: ownca
+    - name: generate external openssl certificate
+      community.crypto.x509_certificate:
+        path: certs/demo.org-external-cert.pem
+        csr_path: CSRs/demo.org-internal-csr.pem
+        ownca_path: CA/demo/demo-external-ca-int1-cert.pem
+        ownca_privatekey_path: CA/demo/demo-external-ca-int1-key.pem
+        provider: ownca

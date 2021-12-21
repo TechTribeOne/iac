@@ -1,6 +1,7 @@
 ---
 collections:
   - community.crypto
+  - community.sops
 
 # roles:
 #   - name: dev-sec.os-hardening

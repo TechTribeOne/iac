@@ -1,0 +1,20 @@
+---
+- hosts: all
+  become: true
+  # gather_facts: false       # default: true
+
+  pre_tasks:
+    - name: tasks to run before everything else
+      include_tasks: "tasks/pre_tasks.yml"
+
+  # tasks:
+  #   - debug:
+  #       msg: "env={{ env }}"
+
+  # post_tasks:
+  #   - name: tasks to run after everything else
+  #     include_tasks: "tasks/post_tasks.yml"
+
+- import_playbook: playbooks/elasticsearch.yml
+- import_playbook: playbooks/filebeat.yml
+- import_playbook: playbooks/metricbeat.yml

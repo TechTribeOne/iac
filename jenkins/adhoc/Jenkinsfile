@@ -20,7 +20,7 @@ pipeline {
     }
     stage('gitconnect') {
       steps {
-        withCredentials([sshUserPrivateKey(credentialsId: "vast-slconle-ssh-slctemp", keyFileVariable: 'keyfile')]) {
+        withCredentials([sshUserPrivateKey(credentialsId: "slconle-ssh-slctemp", keyFileVariable: 'keyfile')]) {
           sh '''
           ssh -Tvv -i "$keyfile" git@gitlab.gs.mil
           '''

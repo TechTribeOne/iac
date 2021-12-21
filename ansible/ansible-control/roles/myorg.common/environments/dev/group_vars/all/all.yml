@@ -1,7 +1,7 @@
 ---
 env: dev
 
-myorg_repo_url: https://ansible.hq.vast-inc.com/repo/
+myorg_repo_url: https://ansible.example.org/repo/
 
 java_packages: java-1.8.0-openjdk
 
@@ -19,7 +19,7 @@ mongodb_version: 4.0
 mongo_replication_set: !!null
 mongo_interfaces: ["127.0.0.1"]
 
-nginx_node_name: myorg.hq.vast-inc.com
+nginx_node_name: myorg.example.org
 
 myorg_network: "{{ network }}"
 myorg_user: myorg

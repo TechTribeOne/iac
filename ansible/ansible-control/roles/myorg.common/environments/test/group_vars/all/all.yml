@@ -1,7 +1,7 @@
 ---
 env: test
 
-myorg_repo_url: https://ansible.hq.vast-inc.com/repo/
+myorg_repo_url: https://ansible.example.org/repo/
 
 java_packages: java-1.8.0-openjdk
 
@@ -21,7 +21,7 @@ mongodb_version: 4.0
 mongo_replication_set: !!null
 mongo_interfaces: ["127.0.0.1"]
 
-nginx_node_name: vatea.hq.vast-inc.com
+nginx_node_name: www.example.org
 
 myorg_network: "{{ network }}"
 myorg_user: myorg
@@ -32,4 +32,4 @@ myorg_server_truststore_passkey: ''
 
 mongodb_auth_password: ''
 
-auth_allowed_origins: 'https://vatea.hq.vast-inc.com, https://vatea.hq.vast-inc.com:4200, https://vatea.hq.vast-inc.com:9443'
+auth_allowed_origins: 'https://www.example.org, https://www.example.org:4200, https://www.example.org:9443'

@@ -9,10 +9,10 @@ roles:
     version: 7.7.0
   # - name: elastic.elasticsearch
   #   scm: git
-  #   src: git@git.vast-inc.com:ansible/ansible-elasticsearch.git
+  #   src: git@git.example.org:ansible/ansible-elasticsearch.git
   #   version: master
   # - name: elastic.beats
   #   scm: git
-  #   src: git@git.vast-inc.com:ansible/ansible-beats.git
+  #   src: git@git.example.org:ansible/ansible-beats.git
   #   version: master
 

@@ -1,0 +1,9 @@
+---
+collections:
+  - community.crypto
+
+# roles:
+#   - name: dev-sec.os-hardening
+#     scm: git
+#     src: git@github.com:dev-sec/ansible-collection-hardening.git
+#     version: 7.7.0

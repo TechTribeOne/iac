@@ -28,5 +28,5 @@
     mode: 0644
 
 - name: Add host entry for dev
-  shell: echo "192.168.100.67  ansible.hq.vast-inc.com" >> /etc/hosts
+  shell: echo "192.168.100.67  ansible.example.org" >> /etc/hosts
   when: env == "dev"

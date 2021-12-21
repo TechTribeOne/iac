@@ -1,0 +1,44 @@
+es_version: "6.8.15"
+es_allow_downgrades: true
+
+# es_repo_base: "file:///var/repo/yum"
+es_add_repository: false
+# es_version_lock: true
+
+es_config:
+  cluster.name: 'myorg'
+  discovery.zen.ping.unicast.hosts: 
+    - myorg-es01
+    - myorg-es02
+    - myorg-es03
+    - myorg-es04
+    - myorg-es05
+  indices.lifecycle.poll_interval: 30s
+  network.host: 0.0.0.0
+  node.name: '{{inventory_hostname}}'
+  cluster.routing.allocation.disk.watermark.low: '5gb'
+  cluster.routing.allocation.disk.watermark.high: '5gb'
+  cluster.routing.allocation.disk.watermark.flood_stage: '5gb'
+  cluster.info.update.interval: '1m'
+  xpack.license.self_generated.type: 'basic'
+
+path.logs: '/var/log/elasticsearch'
+es_data_dirs:
+  - /data1/myorg/elasticsearch
+  - /data2/myorg/elasticsearch
+  - /data3/myorg/elasticsearch
+  - /data4/myorg/elasticsearch
+  - /data5/myorg/elasticsearch
+
+# jvm parms
+es_heap_size: '1g'
+
+# listener stuff
+es_api_scheme: "http"
+es_api_host: "localhost"
+
+# java stuff
+es_java_home: ''
+es_jvm_custom_parameters: ''
+es_heap_dump_path: "/var/lib/elasticsearch"
+

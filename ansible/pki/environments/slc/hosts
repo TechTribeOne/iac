@@ -1,8 +1,0 @@
-[all:vars]
-env=slc
-
-[elasticsearch]
-myorg-es[01:03]
-
-[myorg]
-myorg-es[01:03]

@@ -1,0 +1,65 @@
+- hosts: localhost
+  gather_facts: false
+  vars_files:
+    - vars/main.yaml
+    - vars/vault.yaml
+
+  tasks:
+
+    - name: "create CA artifacts dirs"
+      file: path={{item}} state=directory
+      with_items:
+        - "{{ca_artifact_dir}}/CSRs"
+        - "{{ca_artifact_dir}}/certs"
+        - "{{ca_artifact_dir}}/keys"
+
+    # ----------------------------------------
+    # CA: root
+    # ----------------------------------------
+    - name: "generate private key: demo-ca-root"
+      community.crypto.openssl_privatekey:
+        path: "{{ca_artifact_dir}}/keys/demo-ca-root.pem"
+        passphrase: "{{ca_key_passphrase}}"
+        cipher: auto
+
+    - name: "generate CSR: demo-ca-root"
+      community.crypto.openssl_csr:
+        path: "{{ca_artifact_dir}}/CSRs/demo-ca-root.pem"
+        privatekey_path: "{{ca_artifact_dir}}/keys/demo-ca-root.pem"
+        privatekey_passphrase: "{{ca_key_passphrase}}"
+        common_name: "demo-ca-root"
+
+    - name: "generate cert: demo-ca-root"
+      community.crypto.x509_certificate:
+        path: "{{ca_artifact_dir}}/certs/demo-ca-root.pem"
+        csr_path: "{{ca_artifact_dir}}/CSRs/demo-ca-root.pem"
+        privatekey_path: "{{ca_artifact_dir}}/keys/demo-ca-root.pem"
+        privatekey_passphrase: "{{ca_key_passphrase}}"
+        provider: selfsigned
+
+    # ----------------------------------------
+    # CA: int1
+    # ----------------------------------------
+    - name: "generate private key: demo-ca-int1"
+      community.crypto.openssl_privatekey:
+        path: "{{ca_artifact_dir}}/keys/demo-ca-int1.pem"
+        passphrase: "{{ca_key_passphrase}}"
+        cipher: auto
+
+    - name: "generate CSR: demo-ca-int1"
+      community.crypto.openssl_csr:
+        path: "{{ca_artifact_dir}}/CSRs/demo-ca-int1.pem"
+        privatekey_path: "{{ca_artifact_dir}}/keys/demo-ca-int1.pem"
+        privatekey_passphrase: "{{ca_key_passphrase}}"
+        common_name: "demo-ca-int1"
+
+    - name: "generate cert: demo-ca-int1"
+      community.crypto.x509_certificate:
+        path: "{{ca_artifact_dir}}/certs/demo-ca-int1.pem"
+        csr_path: "{{ca_artifact_dir}}/CSRs/demo-ca-int1.pem"
+        ownca_path: "{{ca_artifact_dir}}/certs/demo-ca-root.pem"
+        ownca_privatekey_path: "{{ca_artifact_dir}}/keys/demo-ca-root.pem"
+        ownca_privatekey_passphrase: "{{ca_key_passphrase}}"
+        provider: ownca
+
+

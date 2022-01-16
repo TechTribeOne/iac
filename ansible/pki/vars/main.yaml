@@ -1,0 +1,4 @@
+ca_artifact_dir: "artifacts/CA"
+ca_key_passphrase: "{{vault_ca_key_passphrase}}"
+endpoint_artifact_dir: "artifacts/endpoints"
+endpoint_key_passphrase: "{{vault_endpoint_key_passphrase}}"

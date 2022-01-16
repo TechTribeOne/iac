@@ -1,0 +1,10 @@
+domains:
+  - demo.org
+  - dev01.demo.org
+  - dev02.demo.org
+
+endpoints:
+  - name: www
+  - name: ldap
+    sans: [ "DNS:ldap*" ]   
+

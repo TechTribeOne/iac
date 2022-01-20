@@ -13,7 +13,7 @@
         - "{{domains}}"
         - [ "CSRs", "certs/internal", "certs/external", "keys" ]
 
-    - name: generate endpoint private key
+    - name: "generate endpoint private key"
       community.crypto.openssl_privatekey:
         path: "{{endpoint_artifact_dir}}/{{item.1}}/keys/{{item.0.name}}.{{item.1}}.pem"
         passphrase: "{{endpoint_key_passphrase}}"

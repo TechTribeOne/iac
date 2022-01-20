@@ -6,5 +6,6 @@ domains:
 endpoints:
   - name: www
   - name: ldap
-    sans: [ "DNS:ldap*" ]   
+    sans:
+      - DNS:ldap*
 

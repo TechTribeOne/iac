@@ -1,0 +1,36 @@
+#!/bin/bash -e
+
+PATH=/bin:/usr/bin:/sbin:/usr/sbin
+
+# clone repo
+workdir=$(mktemp -d)
+pushd $workdir > /dev/null
+git clone https://github.com/rancherfederal/rke2-ansible.git
+cd rke2-ansible
+
+# install dependencies
+ansible-galaxy collection install -r requirements.yml
+
+# create localhost playbook
+cat << END > playbook.yaml
+- hosts: localhost
+  connection: local
+  become: yes
+  roles:
+    - rke2_common
+END
+
+# create localhost inventory file
+cat << END > hosts
+[rke2_servers]
+localhost
+[rke2_agents]
+localhost
+END
+
+# call the play
+ansible-playbook --connection local -i hosts playbook.yaml
+
+# hit the showers
+popd; rm -rf $workdir
+

@@ -5,5 +5,5 @@
   "amiRegions": "us-east-1",
   "vpcId": "vpc-fa0dba9e",
   "subnetId": "subnet-c526259c",
-  "instance_type": "t3a.medium"
+  "instance_type": "t3a.micro"
 }

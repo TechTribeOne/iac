@@ -4,5 +4,7 @@
 # rpm --import https://mirror.umd.edu/fedora/epel//RPM-GPG-KEY-EPEL-7
 
 # AL and EL versions of adding extra/epel repo(s). do not fail due to this.
-amazon-linux-extras -y install epel || yum -y install epel-release || true
+amazon-linux-extras -y install epel 2> /dev/null || \
+  yum -y install epel-release 2> /dev/null || \
+  yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm 2> /dev/null || true
 

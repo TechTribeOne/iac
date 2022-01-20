@@ -17,15 +17,15 @@
     "sshAgent": "false",
     "al-sourceAccounts": "137112412989",
     "al-AmiNamePrefix": "amzn2-ami-hvm-2",
-    "el-sourceAccounts": "679593333241",
-    "el-AmiNamePrefix": "CentOS Linux 8 x86_64 HVM EBS",
-    "el-AmiNamePrefix-clean": "centos-linux-8-x86_64-hvm-ebs",
+    "rhel-sourceAccounts": "382052793947",
+    "rhel-AmiNamePrefix": "rhel-8-hvm-*",
+    "rhel-AmiNamePrefix-clean": "rhel-8-rke2",
     "sourceProductCode": ""
   },
 
   "builders": [
     {
-      "name": "aws-al",
+      "name": "aws-al-rke2",
       "type": "amazon-ebs",
       "region": "{{user `region`}}",
       "availability_zone": "{{user `availability_zone`}}",
@@ -79,7 +79,7 @@
       }
     },
     {
-      "name": "aws-el",
+      "name": "aws-rhel-rke2",
       "type": "amazon-ebs",
       "region": "{{user `region`}}",
       "availability_zone": "{{user `availability_zone`}}",
@@ -91,13 +91,13 @@
       "communicator": "ssh",
       "source_ami_filter": {
         "filters": {
-          "name": "{{user `al-AmiNamePrefix`}}*",
+          "name": "{{user `rhel-AmiNamePrefix`}}*",
           "virtualization-type": "hvm"
         },
-        "owners": "{{user `al-sourceAccounts`}}",
+        "owners": "{{user `rhel-sourceAccounts`}}",
         "most_recent": true
       },
-      "ami_name": "{{user `el-AmiNamePrefix-clean`}}-{{isotime \"20060102T150405Z\"}}",
+      "ami_name": "{{user `rhel-AmiNamePrefix-clean`}}-{{isotime \"20060102T150405Z\"}}",
       "instance_type": "{{user `instance_type`}}",
       "ssh_username": "{{user `sshUser`}}",
       "ssh_keypair_name": "{{user `sshKeyName`}}",
@@ -113,20 +113,20 @@
       }],
       "user_data": "cloud-config\nhostname: packer.local",
       "run_tags": {
-        "Name": "{{user `el-AmiNamePrefix-clean`}}-packer-{{isotime \"20060102T150405Z\"}}",
+        "Name": "{{user `rhel-AmiNamePrefix-clean`}}-packer-{{isotime \"20060102T150405Z\"}}",
         "CreatedBy": "AWSCLI",
         "POC": "{{user `POC`}}",
         "BuildTime": "{{isotime \"20060102T150405Z\"}}"
       },
       "run_volume_tags": {
-        "Name": "{{user `el-AmiNamePrefix-clean`}}-packer-{{isotime \"20060102T150405Z\"}}",
+        "Name": "{{user `rhel-AmiNamePrefix-clean`}}-packer-{{isotime \"20060102T150405Z\"}}",
         "CreatedBy": "AWSCLI",
         "POC": "{{user `POC`}}",
         "BuildTime": "{{isotime \"20060102T150405Z\"}}",
         "notes": "You may delete this volume if not in use"
       },
       "tags": {
-        "Name": "{{user `el-AmiNamePrefix-clean`}}-{{isotime \"20060102T150405Z\"}}",
+        "Name": "{{user `rhel-AmiNamePrefix-clean`}}-{{isotime \"20060102T150405Z\"}}",
         "CreatedBy": "AWSCLI",
         "POC": "{{user `POC`}}",
         "BuildTime": "{{isotime \"20060102T150405Z\"}}"
@@ -148,7 +148,7 @@
     "scripts": [
       "provisioners/init-repos",
       "provisioners/init-packages",
-      "provisioners/ansible-hardening"
+      "provisioners/install-rke2"
     ]
   }]
 }

@@ -2,18 +2,41 @@
 PATH=/bin:/usr/bin:/sbin:/usr/sbin
 umask 22
 
+[ -f /etc/os-release ] && source /etc/os-release
+
 jq_download_url="https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64"
 
+# ------------------------------
 # yum blacklist
+# ------------------------------
 yum -y erase \
   ghostscript \
   2> /dev/null
 
+# ------------------------------
 # update before new installs
+# ------------------------------
 yum -y update
 
-# yum installs
+# ------------------------------
+# release-specific items
+# ------------------------------
+case "$NAME" in 
+
+  *Amazon*)
+    yum -y install amazon-ssm-agent && systemctl enable amazon-ssm-agent
+    ;;
+    
+  *Centos*)
+    ;;
+    
+esac
+
+# ------------------------------
+# common RPM packages
+# ------------------------------
 yum -y install \
+  ansible \
   bind-utils \
   binutils \
   coreutils  \
@@ -22,7 +45,6 @@ yum -y install \
   mlocate \
   net-tools \
   postfix \
-  python2-pip \
   python3 \
   screen \
   unzip \
@@ -31,14 +53,18 @@ yum -y install \
   zip \
   zsh
 
-# best effort for aws ssm
-yum -y install amazon-ssm-agent && systemctl enable amazon-ssm-agent || true
+# ------------------------------
+# changing some defaults
+# ------------------------------
+alternatives --install /usr/bin/python python /usr/bin/python2 50
+alternatives --install /usr/bin/python python /usr/bin/python3 90
 
-# try really hard for ansible. fail entire job if ansible not available.
-yum -y install ansible || pip install ansible || true
-which ansible > /dev/null 2>&1 || exit 1
 
-# considering other base software to be part of packages
+# ------------------------------
+# non-RPM base packages
+# ------------------------------
+
+# jq
 curl -skL "$jq_download_url" -o /usr/bin/jq && \
 chown root:root /usr/bin/jq && \
 chmod 755 /usr/bin/jq || true

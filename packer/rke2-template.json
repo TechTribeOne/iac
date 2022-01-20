@@ -22,7 +22,7 @@
     "rhel-AmiNamePrefix-clean": "rhel-8-rke2",
     "sourceProductCode": ""
   },
-
+ 
   "builders": [
     {
       "name": "aws-al-rke2",

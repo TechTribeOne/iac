@@ -1,0 +1,7 @@
+#!/bin/bash -e
+
+PATH=/usr/bin:/bin:/usr/sbin:/sbin
+
+# install ansible collection(s)
+ansible-galaxy collection install devsec.hardening
+

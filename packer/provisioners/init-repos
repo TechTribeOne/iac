@@ -1,10 +1,16 @@
 #!/bin/bash -e
 
-# rpm --import http://mirror.centos.org/centos/RPM-GPG-KEY-CentOS-7
-# rpm --import https://mirror.umd.edu/fedora/epel//RPM-GPG-KEY-EPEL-7
+[ -f /etc/os-release ] && source /etc/os-release 
 
-# AL and EL versions of adding extra/epel repo(s). do not fail due to this.
-amazon-linux-extras -y install epel 2> /dev/null || \
-  yum -y install epel-release 2> /dev/null || \
-  yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm 2> /dev/null || true
+case "$NAME" in 
 
+  *Amazon*)
+    amazon-linux-extras install -y epel
+    amazon-linux-extras enable epel
+    ;;
+    
+  *Centos*)
+    yum -y install epel-release
+    ;;
+    
+esac

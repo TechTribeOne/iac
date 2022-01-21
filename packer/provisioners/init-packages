@@ -18,19 +18,6 @@ yum -y erase \
 # ------------------------------
 yum -y update
 
-# ------------------------------
-# release-specific items
-# ------------------------------
-case "$NAME" in 
-
-  *Amazon*)
-    yum -y install amazon-ssm-agent && systemctl enable amazon-ssm-agent
-    ;;
-    
-  *Centos*)
-    ;;
-    
-esac
 
 # ------------------------------
 # common RPM packages
@@ -54,10 +41,26 @@ yum -y install \
   zsh
 
 # ------------------------------
-# changing some defaults
+# release-specific items
 # ------------------------------
-alternatives --install /usr/bin/python python /usr/bin/python2 50
-alternatives --install /usr/bin/python python /usr/bin/python3 90
+case "$NAME" in
+
+  *Amazon*)
+    yum -y install amazon-ssm-agent && systemctl enable amazon-ssm-agent
+    ;;
+
+  *Red?Hat*)
+# alternatives --install /usr/bin/python python /usr/bin/python2 50
+# alternatives --install /usr/bin/python python /usr/bin/python3 90
+        alternatives --set python /usr/bin/python3
+    ;;
+
+  *CentOS*)
+        alternatives --set python /usr/bin/python3
+    ;;
+
+esac
+
 
 
 # ------------------------------

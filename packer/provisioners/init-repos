@@ -1,16 +1,20 @@
 #!/bin/bash -e
 
-[ -f /etc/os-release ] && source /etc/os-release 
+[ -f /etc/os-release ] && source /etc/os-release
 
-case "$NAME" in 
+case "$NAME" in
 
   *Amazon*)
     amazon-linux-extras install -y epel
     amazon-linux-extras enable epel
     ;;
-    
-  *Centos*)
+
+  *Red?Hat*)
+    yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+    ;;
+
+  *CentOS*)
     yum -y install epel-release
     ;;
-    
+
 esac

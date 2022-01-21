@@ -2,6 +2,8 @@
   "variables": {
     "POC": "",
     "sshUser": "ec2-user",
+    "centosSshUser": "centos",
+    "rhel-sourceAccounts": "309956199498",
     "instanceProfile": "",
     "subnetId": "",
     "vpcId": "",
@@ -15,21 +17,20 @@
     "instance_type": "",
     "securityGroup": "",
     "sshAgent": "false",
-    "al-sourceAccounts": "137112412989",
-    "al-AmiNamePrefix": "amzn2-ami-hvm-2",
+    "amzn2-sourceAccounts": "137112412989",
+    "amzn2-source-AmiNamePrefix": "amzn2-ami-hvm-2",
+    "amzn2-target-AmiNamePrefix": "amzn2",
     "centos-sourceAccounts": "679593333241",
     "centos-AmiNamePrefix": "CentOS-8-ec2-8.*.x86_64-*",
-    "centos-AmiNamePrefix-clean": "centos-8-x86_64",
-    "centosSshUser": "centos",
-    "rhel-sourceAccounts": "309956199498",
+    "centos-target-AmiNamePrefix": "centos-8",
     "rhel-AmiNamePrefix": "RHEL-8*_HVM-*x86_64*GP2",
-    "rhel-AmiNamePrefix-clean": "rhel-8-hvm-x86_64-gp2",
+    "rhel-target-AmiNamePrefix": "rhel-8",
     "sourceProductCode": ""
   },
 
   "builders": [
     {
-      "name": "aws-al",
+      "name": "aws-amzn2",
       "type": "amazon-ebs",
       "region": "{{user `region`}}",
       "availability_zone": "{{user `availability_zone`}}",
@@ -41,13 +42,13 @@
       "communicator": "ssh",
       "source_ami_filter": {
         "filters": {
-          "name": "{{user `al-AmiNamePrefix`}}*",
+          "name": "{{user `amzn2-source-AmiNamePrefix`}}*",
           "virtualization-type": "hvm"
         },
-        "owners": "{{user `al-sourceAccounts`}}",
+        "owners": "{{user `amzn2-sourceAccounts`}}",
         "most_recent": true
       },
-      "ami_name": "{{user `al-AmiNamePrefix` | clean_resource_name}}-{{isotime \"20060102T150405Z\"}}",
+      "ami_name": "{{user `amzn2-target-AmiNamePrefix` | clean_resource_name}}-{{isotime \"20060102T150405Z\"}}",
       "instance_type": "{{user `instance_type`}}",
       "ssh_username": "{{user `sshUser`}}",
       "ssh_keypair_name": "{{user `sshKeyName`}}",
@@ -63,20 +64,20 @@
       }],
       "user_data": "cloud-config\nhostname: packer.local",
       "run_tags": {
-        "Name": "{{user `al-AmiNamePrefix` | clean_resource_name}}-packer-{{isotime \"20060102T150405Z\"}}",
+        "Name": "{{user `amzn2-target-AmiNamePrefix` | clean_resource_name}}-packer-{{isotime \"20060102T150405Z\"}}",
         "CreatedBy": "AWSCLI",
         "POC": "{{user `POC`}}",
         "BuildTime": "{{isotime \"20060102T150405Z\"}}"
       },
       "run_volume_tags": {
-        "Name": "{{user `al-AmiNamePrefix` | clean_resource_name}}-packer-{{isotime \"20060102T150405Z\"}}",
+        "Name": "{{user `amzn2-target-AmiNamePrefix` | clean_resource_name}}-packer-{{isotime \"20060102T150405Z\"}}",
         "CreatedBy": "AWSCLI",
         "POC": "{{user `POC`}}",
         "BuildTime": "{{isotime \"20060102T150405Z\"}}",
         "notes": "You may delete this volume if not in use"
       },
       "tags": {
-        "Name": "{{user `al-AmiNamePrefix` | clean_resource_name}}-{{isotime \"20060102T150405Z\"}}",
+        "Name": "{{user `amzn2-target-AmiNamePrefix` | clean_resource_name}}-{{isotime \"20060102T150405Z\"}}",
         "CreatedBy": "AWSCLI",
         "POC": "{{user `POC`}}",
         "BuildTime": "{{isotime \"20060102T150405Z\"}}"
@@ -101,7 +102,7 @@
         "owners": "{{user `centos-sourceAccounts`}}",
         "most_recent": true
       },
-      "ami_name": "{{user `centos-AmiNamePrefix-clean`}}-{{isotime \"20060102T150405Z\"}}",
+      "ami_name": "{{user `centos-target-AmiNamePrefix`}}-{{isotime \"20060102T150405Z\"}}",
       "instance_type": "{{user `instance_type`}}",
       "ssh_username": "{{user `centosSshUser`}}",
       "ssh_keypair_name": "{{user `sshKeyName`}}",
@@ -117,20 +118,20 @@
       }],
       "user_data": "cloud-config\nhostname: packer.local",
       "run_tags": {
-        "Name": "{{user `centos-AmiNamePrefix-clean`}}-packer-{{isotime \"20060102T150405Z\"}}",
+        "Name": "{{user `centos-target-AmiNamePrefix`}}-packer-{{isotime \"20060102T150405Z\"}}",
         "CreatedBy": "AWSCLI",
         "POC": "{{user `POC`}}",
         "BuildTime": "{{isotime \"20060102T150405Z\"}}"
       },
       "run_volume_tags": {
-        "Name": "{{user `centos-AmiNamePrefix-clean`}}-packer-{{isotime \"20060102T150405Z\"}}",
+        "Name": "{{user `centos-target-AmiNamePrefix`}}-packer-{{isotime \"20060102T150405Z\"}}",
         "CreatedBy": "AWSCLI",
         "POC": "{{user `POC`}}",
         "BuildTime": "{{isotime \"20060102T150405Z\"}}",
         "notes": "You may delete this volume if not in use"
       },
       "tags": {
-        "Name": "{{user `centos-AmiNamePrefix-clean`}}-{{isotime \"20060102T150405Z\"}}",
+        "Name": "{{user `centos-target-AmiNamePrefix`}}-{{isotime \"20060102T150405Z\"}}",
         "CreatedBy": "AWSCLI",
         "POC": "{{user `POC`}}",
         "BuildTime": "{{isotime \"20060102T150405Z\"}}"
@@ -155,7 +156,7 @@
         "owners": "{{user `rhel-sourceAccounts`}}",
         "most_recent": true
       },
-      "ami_name": "{{user `rhel-AmiNamePrefix-clean`}}-{{isotime \"20060102T150405Z\"}}",
+      "ami_name": "{{user `rhel-target-AmiNamePrefix`}}-{{isotime \"20060102T150405Z\"}}",
       "instance_type": "{{user `instance_type`}}",
       "ssh_username": "{{user `sshUser`}}",
       "ssh_keypair_name": "{{user `sshKeyName`}}",
@@ -171,20 +172,20 @@
       }],
       "user_data": "cloud-config\nhostname: packer.local",
       "run_tags": {
-        "Name": "{{user `rhel-AmiNamePrefix-clean`}}-packer-{{isotime \"20060102T150405Z\"}}",
+        "Name": "{{user `rhel-target-AmiNamePrefix`}}-packer-{{isotime \"20060102T150405Z\"}}",
         "CreatedBy": "AWSCLI",
         "POC": "{{user `POC`}}",
         "BuildTime": "{{isotime \"20060102T150405Z\"}}"
       },
       "run_volume_tags": {
-        "Name": "{{user `rhel-AmiNamePrefix-clean`}}-packer-{{isotime \"20060102T150405Z\"}}",
+        "Name": "{{user `rhel-target-AmiNamePrefix`}}-packer-{{isotime \"20060102T150405Z\"}}",
         "CreatedBy": "AWSCLI",
         "POC": "{{user `POC`}}",
         "BuildTime": "{{isotime \"20060102T150405Z\"}}",
         "notes": "You may delete this volume if not in use"
       },
       "tags": {
-        "Name": "{{user `rhel-AmiNamePrefix-clean`}}-{{isotime \"20060102T150405Z\"}}",
+        "Name": "{{user `rhel-target-AmiNamePrefix`}}-{{isotime \"20060102T150405Z\"}}",
         "CreatedBy": "AWSCLI",
         "POC": "{{user `POC`}}",
         "BuildTime": "{{isotime \"20060102T150405Z\"}}"

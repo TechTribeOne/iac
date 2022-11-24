@@ -1,8 +1,9 @@
 FROM redhat/ubi9
 
-LABEL maintainer='sean conley <sean.conley@techtribeone.com>' license='MIT' name='CORE'\
-  description='core' url='https://github.com/techtribeone/iac/docker' \
-  vendor='techtribeone' version='0.1'
+LABEL \
+  com.techtribeone.maintainer='sean conley <sean.conley@techtribeone.com>' \
+  com.techtribeone.vendor='techtribeone' \
+  license='MIT' name='core' description='core' url='https://github.com/techtribeone/iac/docker'
 
 RUN \
 yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm && \
@@ -13,9 +14,11 @@ yum -y install \
   file \
   grep \
   less \
+  openssh-clients \
   openssl \
   pip \
   python3 \
+  rsync \
   screen \
   tar \
   unzip \

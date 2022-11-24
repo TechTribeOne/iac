@@ -1,8 +1,9 @@
 FROM techtribeone/alpine-core
 
-LABEL maintainer='sean conley <sean.conley@techtribeone.com>' license='MIT' name='CLI'\
-  description='cli' url='https://github.com/techtribeone/iac/docker' \
-  vendor='techtribeone' version='0.1'
+LABEL \
+  com.techtribeone.maintainer='sean conley <sean.conley@techtribeone.com>' \
+  com.techtribeone.vendor='techtribeone' \
+  license='MIT' name='cli' description='cli' url='https://github.com/techtribeone/iac/docker'
 
 ADD overlay/ /
 RUN \
@@ -30,5 +31,4 @@ apk -Uuv add \
   step-cli \
   step-cli-bash-completion \
   step-cli-zsh-completion \
-  && \
-rm -f /var/cache/apk/*
+&& rm -f /var/cache/apk/*

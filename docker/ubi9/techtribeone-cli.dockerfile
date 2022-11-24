@@ -1,12 +1,14 @@
 FROM techtribeone/ubi9-core
 
-LABEL maintainer='sean conley <sean.conley@techtribeone.com>' license='MIT' name='CLI'\
-  description='cli' url='https://github.com/techtribeone/iac/docker' \
-  vendor='techtribeone' version='0.1'
+LABEL \
+  com.techtribeone.maintainer='sean conley <sean.conley@techtribeone.com>' \
+  com.techtribeone.vendor='techtribeone' \
+  license='MIT' name='cli' description='cli' url='https://github.com/techtribeone/iac/docker'
 
 RUN \
 yum -y update && \
 yum -y install \
+  bind-utils \
   coreutils-single \
   dnsmasq \
   git \

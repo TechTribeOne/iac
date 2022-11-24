@@ -1,10 +1,9 @@
-FROM quay.io/centos/centos:7
+FROM quay.io/centos/centos:stream8
 
 LABEL \
-  name='techtribeone/centos/core' version='0.1' license='MIT' \
-  description='tools for general command-line interface utility usage' \
-  url='https://github.com/techtribeone/iac/docker/' \
-  vendor='techtribeone' maintainer='sean conley <sean.conley@techtribeone.com>'
+  com.techtribeone.maintainer='sean conley <sean.conley@techtribeone.com>' \
+  com.techtribeone.vendor='techtribeone' \
+  license='MIT' name='core' description='core' url='https://github.com/techtribeone/iac/docker'
 
 RUN \
 yum -y install epel-release && \
@@ -13,13 +12,15 @@ yum -y install \
   bash \
   busybox \
   coreutils-single \
-  curl-minimal \
+  curl \
   file \
   grep \
   less \
+  mlocate \
+  openssh-clients \
   openssl \
-  pip \
   python3 \
+  rsync \
   screen \
   tar \
   unzip \

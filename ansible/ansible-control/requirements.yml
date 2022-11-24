@@ -1,6 +1,9 @@
 ---
 collections:
-  - community.sops
+  # - community.sops
+  - name: community.vmware
+    scm: git
+    src: 
 
 roles:
   - name: dev-sec.os-hardening

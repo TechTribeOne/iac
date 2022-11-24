@@ -1,10 +1,9 @@
 FROM techtribeone/stream8-cli
 
 LABEL \
-  name='techtribeone/centos/iac' version='0.1' license='MIT' \
-  description='tools for Infrastructure as Code (IaC)' \
-  url='https://github.com/techtribeone/iac/docker/iac' \
-  vendor='techtribeone' maintainer='sean conley <sean.conley@techtribeone.com>'
+  com.techtribeone.maintainer='sean conley <sean.conley@techtribeone.com>' \
+  com.techtribeone.vendor='techtribeone' \
+  license='MIT' name='iac' description='iac' url='https://github.com/techtribeone/iac/docker'
 
 RUN \
 yum -y update && \

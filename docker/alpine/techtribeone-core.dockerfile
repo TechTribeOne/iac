@@ -1,4 +1,4 @@
-FROM alpine:3.16
+FROM alpine:3.17
 
 LABEL \
   com.techtribeone.maintainer='sean conley <sean.conley@techtribeone.com>' \
@@ -30,5 +30,6 @@ apk -Uuv add \
   zip \
   zsh \
   zsh-vcs \
-&& python3 -m pip install virtualenv \
+&& python3 -m pip install -qU pip \
+&& python3 -m pip install -qU virtualenv \
 && rm -rf /var/cache/apk/* /root/.cache

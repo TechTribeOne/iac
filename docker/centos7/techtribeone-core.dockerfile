@@ -6,9 +6,9 @@ LABEL \
   license='MIT' name='core' description='core' url='https://github.com/techtribeone/iac/docker'
 
 RUN \
-yum -y install epel-release && \
-yum -y update && \
-yum -y install \
+yum -y install epel-release \
+&& yum -y update \
+&& yum -y install \
   bash \
   busybox \
   coreutils-single \
@@ -28,7 +28,6 @@ yum -y install \
   vim \
   zip \
   zsh \
-  && \
-python3 -m pip install -q virtualenv && \
-yum clean all && \
-rm -rf /var/cache/dnf/* /var/cache/yum/*
+&& python3 -m pip install -q virtualenv \
+&& yum clean all \
+&& rm -rf /var/cache/dnf/* /var/cache/yum/*

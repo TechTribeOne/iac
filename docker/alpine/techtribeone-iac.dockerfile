@@ -7,11 +7,10 @@ LABEL \
 
 RUN \
 apk -Uuv add \
-  ansible \
   packer \
   terraform \
-&& rm -f /var/cache/apk/* \
-&& python3 -m pip install git+https://github.com/vmware/vsphere-automation-sdk-python.git \
-&& mkdir -p /usr/share/ansible/collections \
+&& python3 -m pip install -qU ansible \
 && ansible-galaxy collection install -p /usr/share/ansible/collections community.vmware \
-&& rm -rf /root/.ansible /root/.cache
+&& ansible-galaxy collection install -p /usr/share/ansible/collections vmware.vmware_rest \
+&& for r in /usr/share/ansible/collections/ansible_collections/*/*/requirements.txt; do python3 -m pip install -qr $r; done \
+&& rm -rf /root/.ansible /root/.cache /tmp/* /var/tmp/* /var/cache/apk/* \

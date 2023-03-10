@@ -6,8 +6,8 @@ LABEL \
   license='MIT' name='cli' description='cli' url='https://github.com/techtribeone/iac/docker'
 
 RUN \
-yum -y update && \
-yum -y install \
+yum -y update \
+&& yum -y install \
   bind-utils \
   coreutils-single \
   dnsmasq \
@@ -20,8 +20,6 @@ yum -y install \
   openldap \
   openvpn \
   sqlite \
-  squid \
   sshpass \
-  && \
-yum clean all && \
-rm -rf /var/cache/dnf/* /var/cache/yum/*
+&& yum clean all \
+&& rm -rf /var/cache/dnf/* /var/cache/yum/* \

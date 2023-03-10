@@ -1,0 +1,11 @@
+#!/bin/bash
+
+buildops="--no-cache"
+# buildops=""
+
+for d in alpine centos7 stream8 stream9 ubi8 ubi9; do
+  pushd $d
+  bash -x build $buildops
+  popd
+done
+

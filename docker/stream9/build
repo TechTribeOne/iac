@@ -1,0 +1,9 @@
+#!/bin/bash -e
+
+buildops="$*"
+
+v=$(date '+%Y%m%d') \
+&& docker build $buildops --label version=$v -t techtribeone/stream9-core:latest -t techtribeone/stream9-core:$v -f techtribeone-core.dockerfile . \
+&& docker build $buildops --label version=$v -t techtribeone/stream9-cli:latest -t techtribeone/stream9-cli:$v -f techtribeone-cli.dockerfile . \
+&& docker build $buildops --label version=$v -t techtribeone/stream9-iac:latest -t techtribeone/stream9-iac:$v -f techtribeone-iac.dockerfile . \
+

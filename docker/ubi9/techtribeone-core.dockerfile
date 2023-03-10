@@ -6,9 +6,9 @@ LABEL \
   license='MIT' name='core' description='core' url='https://github.com/techtribeone/iac/docker'
 
 RUN \
-yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm && \
-yum -y update && \
-yum -y install \
+yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm \
+&& yum -y update \
+&& yum -y install \
   bash \
   coreutils-single \
   file \
@@ -24,9 +24,7 @@ yum -y install \
   unzip \
   vim \
   zip \
-  && \
-pip install -q virtualenv && \
-yum clean all && \
-rm -rf /var/cache/dnf/* /var/cache/yum/*
-
-
+&& python3 -m pip install -qU pip \
+&& python3 -m pip install -qU virtualenv \
+&& yum clean all \
+&& rm -rf /var/cache/dnf/* /var/cache/yum/*

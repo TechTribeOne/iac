@@ -1,4 +1,4 @@
-FROM redhat/ubi9
+FROM redhat/ubi8
 
 LABEL \
   com.techtribeone.maintainer='sean conley <sean.conley@techtribeone.com>' \
@@ -6,9 +6,9 @@ LABEL \
   license='MIT' name='core' description='core' url='https://github.com/techtribeone/iac/docker'
 
 RUN \
-yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm && \
-yum -y update && \
-yum -y install \
+yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm \
+&& yum -y update \
+&& yum -y install \
   bash \
   coreutils-single \
   file \
@@ -16,7 +16,6 @@ yum -y install \
   less \
   openssh-clients \
   openssl \
-  pip \
   python3 \
   rsync \
   screen \
@@ -24,9 +23,7 @@ yum -y install \
   unzip \
   vim \
   zip \
-  && \
-pip install -q virtualenv && \
-yum clean all && \
-rm -rf /var/cache/dnf/* /var/cache/yum/*
-
-
+&& python3 -m pip install -qU pip \
+&& python3 -m pip install -qU virtualenv \
+&& yum clean all \
+&& rm -rf /var/cache/dnf/* /var/cache/yum/* \
